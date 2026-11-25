@@ -326,7 +326,7 @@
 
                 <p class="topics-title">Scegli l'argomento</p>
                 <div class="topics-grid">
-                    <button type="button" class="topic-btn" data-topic="curiosita">CURIOSITÀ</button>
+                    <button type="button" class="topic-btn" data-topic="curiosita" data-href="curiosita.html">CURIOSITÀ</button>
                     <button type="button" class="topic-btn" data-topic="aneddoti">ANEDDOTI</button>
                     <button type="button" class="topic-btn" data-topic="birre-dal-mondo">BIRRE DAL MONDO</button>
                     <button type="button" class="topic-btn" data-topic="basi-del-bicchiere">LE BASI DEL BICCHIERE</button>
@@ -398,12 +398,15 @@
             });
         }
 
-        // Selezione argomento (pronto per collegare le pagine/sezioni dei 5 quiz)
+        // Selezione argomento senza pop-up
         document.querySelectorAll('.topic-btn').forEach((btn) => {
             btn.addEventListener('click', () => {
                 const topic = btn.dataset.topic;
+                const href = btn.dataset.href;
                 sessionStorage.setItem('clsb_selected_topic', topic);
-                alert('Argomento selezionato: ' + btn.textContent.trim() + '. Ora prepariamo la pagina di gioco!');
+                if (href) {
+                    window.location.href = href;
+                }
             });
         });
 
