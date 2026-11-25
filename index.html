@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chi la sa la beve — Quiz sulla Birra</title>
+  <link rel="stylesheet" href="css/stile.css" />
+</head>
+<body>
+  <div class="app-overlay">
+    <main class="container">
+      <!-- HEADER MINIMALE -->
+      <header class="topbar">
+        <span class="brand">🍺 Chi la sa la beve</span>
+        <span id="player-badge-top" class="player-pill hidden"></span>
+      </header>
+
+      <!-- 1. SCHERMATA INGRESSO -->
+      <section id="view-welcome" class="card view">
+        <p class="eyebrow">Edizione Regalo • Gioco &amp; Libro</p>
+        <h1>Chi la sa la beve</h1>
+        <p class="subtitle">
+          Tieni il libricino sul tavolo, inserisci il tuo nome e sfida gli amici.
+          Nessun account richiesto: i tuoi risultati restano solo sul tuo telefono.
+        </p>
+
+        <div class="field-group">
+          <label for="player-name">Il tuo nome per la sfida</label>
+          <input
+            type="text"
+            id="player-name"
+            placeholder="Es. Marco, Giulia..."
+            maxlength="20"
+            autocomplete="off"
+          />
+        </div>
+
+        <button id="btn-start" class="btn btn-primary" type="button">
+          Inizia dalla Domanda #01
+        </button>
+
+        <button id="btn-resume" class="btn btn-secondary hidden" type="button">
+          Riprendi partita in corso
+        </button>
+
+        <button id="btn-open-group-home" class="btn btn-ghost" type="button">
+          Confronta punteggi del gruppo
+        </button>
+      </section>
+
+      <!-- 2. SCHERMATA PONTE LIBRO -> DOMANDA -->
+      <section id="view-bridge" class="card view hidden">
+        <div class="progress-bar">
+          <div id="bridge-progress-fill" class="progress-fill"></div>
+        </div>
+        <p id="bridge-chapter" class="eyebrow">Capitolo 1 • Curiosità</p>
+        <div class="book-callout">
+          <span class="book-icon">📖</span>
+          <h2 id="bridge-title">Libro — Pagina / Domanda #01</h2>
+          <p class="subtitle">
+            Leggete la domanda sul libricino. Quando siete pronti a rispondere sul telefono, entra nella scheda.
+          </p>
+        </div>
+
+        <button id="btn-enter-question" class="btn btn-primary" type="button">
+          Vai alla Domanda #01 →
+        </button>
+      </section>
+
+      <!-- 3. SCHERMATA DOMANDA -->
+      <section id="view-question" class="card view hidden">
+        <div class="question-meta">
+          <span id="q-chapter" class="eyebrow">Capitolo 1 • Curiosità</span>
+          <span id="q-counter" class="counter-pill">#01 • 1/5</span>
+        </div>
+
+        <!-- Immagine della singola domanda -->
+        <div class="question-media">
+          <img
+            id="q-image"
+            src="assets/img/domanda-01.webp"
+            alt="Illustrazione della domanda"
+            onerror="this.style.display='none'; document.getElementById('q-img-fallback').classList.remove('hidden');"
+          />
+          <div id="q-img-fallback" class="img-fallback hidden">🍺</div>
+        </div>
+
+        <!-- Pulsante Audio -->
+        <div class="audio-row">
+          <button id="btn-audio" class="btn-audio" type="button" aria-label="Ascolta la domanda">
+            <span id="audio-icon">🔊</span>
+            <span id="audio-label">Ascolta domanda</span>
+          </button>
+        </div>
+
+        <!-- Testo Domanda -->
+        <h2 id="q-text" class="question-text"></h2>
+
+        <!-- Risposte Vero / Falso -->
+        <div class="vf-grid">
+          <button id="btn-true" class="btn btn-vf btn-true" type="button">
+            ✔ VERO
+          </button>
+          <button id="btn-false" class="btn btn-vf btn-false" type="button">
+            ✖ FALSO
+          </button>
+        </div>
+
+        <!-- Opzione "Soluzione subito" con doppia conferma -->
+        <div class="instant-box">
+          <button id="btn-want-solution" class="btn btn-ghost small" type="button">
+            👀 Vuoi la soluzione subito o aspetti la fine?
+          </button>
+
+          <div id="confirm-solution-box" class="confirm-panel hidden">
+            <p>
+              <strong>Sei sicuro</strong> di voler vedere subito la soluzione, o preferisci aspettare la fine del quiz?
+            </p>
+            <div class="confirm-actions">
+              <button id="btn-confirm-reveal" class="btn btn-warning small" type="button">
+                Sì, mostra ora
+              </button>
+              <button id="btn-cancel-reveal" class="btn btn-ghost small" type="button">
+                Aspetto la fine
+              </button>
+            </div>
+          </div>
+
+          <div id="revealed-solution-box" class="solution-panel hidden">
+            <div class="solution-header">
+              <strong id="revealed-verdict"></strong>
+              <button id="btn-hide-solution" class="link-btn" type="button">Nascondi</button>
+            </div>
+            <p id="revealed-explanation"></p>
+          </div>
+        </div>
+
+        <div class="nav-footer">
+          <button id="btn-prev" class="btn btn-ghost small" type="button">← Indietro</button>
+          <button id="btn-next" class="btn btn-primary" type="button" disabled>
+            Avanti →
+          </button>
+        </div>
+      </section>
+
+      <!-- 4. SCHERMATA RIEPILOGO & SOLUZIONI COMPATTE -->
+      <section id="view-summary" class="card view hidden">
+        <p class="eyebrow">Fine della partita</p>
+        <h2 id="summary-heading">Ottimo giro!</h2>
+
+        <div class="score-hero">
+          <div id="player-badge-icon" class="badge-art">🏆</div>
+          <div>
+            <div id="player-rank-title" class="rank-title">Mastro Birraio</div>
+            <div id="player-score-text" class="score-big">0 / 5</div>
+          </div>
+        </div>
+
+        <div class="summary-tabs">
+          <button id="tab-group" class="tab-btn active" type="button">
+            📊 Classifica Gruppo
+          </button>
+          <button id="tab-review" class="tab-btn" type="button">
+            📋 Rivedi Soluzioni
+          </button>
+        </div>
+
+        <!-- PANNELLO A: GRAFICO E CONFRONTO GRUPPO -->
+        <div id="panel-group" class="tab-panel">
+          <p class="subtitle small">
+            Condividi il tuo codice nel gruppo WhatsApp del tavolo e incolla qui quelli degli amici per vedere il confronto.
+          </p>
+
+          <div class="share-box">
+            <button id="btn-copy-code" class="btn btn-primary small" type="button">
+              📤 Copia il tuo risultato per il gruppo
+            </button>
+            <span id="copy-feedback" class="feedback-text hidden">Copiato! Incollalo su WhatsApp.</span>
+          </div>
+
+          <div class="import-box">
+            <input
+              type="text"
+              id="friend-code-input"
+              placeholder="Incolla qui il codice o link di un amico..."
+            />
+            <button id="btn-add-friend" class="btn btn-secondary small" type="button">
+              Aggiungi
+            </button>
+          </div>
+
+          <div id="group-chart" class="chart-list"></div>
+
+          <button id="btn-reset-group" class="link-btn danger" type="button">
+            Svuota classifica gruppo
+          </button>
+        </div>
+
+        <!-- PANNELLO B: SOLUZIONI RAGGRUPPATE -->
+        <div id="panel-review" class="tab-panel hidden">
+          <div class="filter-row">
+            <button id="filter-all" class="filter-pill active" type="button">Tutte</button>
+            <button id="filter-wrong" class="filter-pill" type="button">Solo sbagliate</button>
+          </div>
+          <div id="review-list" class="review-list"></div>
+        </div>
+
+        <div class="nav-footer">
+          <button id="btn-restart" class="btn btn-ghost small" type="button">
+            🔄 Gioca di nuovo
+          </button>
+        </div>
+      </section>
+
+      <!-- FOOTER MINUSCOLO IN FONDO ALLA PAGINA -->
+      <footer class="tiny-footer">
+        <a
+          href="https://italianbeerschool.it"
+          id="leave-site-link"
+          class="tiny-link"
+          data-target-url="https://italianbeerschool.it"
+        >
+          italianbeerschool.it
+        </a>
+      </footer>
+
+      <!-- MODALE DI CONFERMA USCITA -->
+      <div id="leave-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+        <div class="modal-box">
+          <h3>Stai per lasciare il gioco</h3>
+          <p class="subtitle small">
+            Sei sicuro di voler uscire da <strong>Chi la sa la beve</strong> e aprire il sito principale? La tua partita resta salvata su questo telefono.
+          </p>
+          <div class="modal-actions">
+            <button id="btn-cancel-leave" class="btn btn-secondary small" type="button">
+              Resta nel gioco
+            </button>
+            <button id="btn-confirm-leave" class="btn btn-ghost small" type="button">
+              Vai al sito
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
