@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1Z1LYHFBGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1Z1LYHFBGN');
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curiosità — Domanda 1 | Chi la sa la beve! - Italian Beer School</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        /* --- STILE BASE --- */
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: 'Quicksand', sans-serif;
+            background: url('sfondo-birra-scuola.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        .overlay {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: rgba(0, 0, 0, 0.65);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- HEADER (SENZA MENU LATERALE) --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 25px 20px;
+            position: relative;
+            z-index: 10;
+            min-height: 80px;
+        }
+        .header-spacer {
+            width: 30px;
+        }
+        .logo-container {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .logo-container img {
+            height: 90px;
+            display: block;
+            cursor: pointer;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 15;
+        }
+        .ig-link {
+            font-size: 1.5em;
+            color: #fff;
+            text-decoration: none;
+        }
+        .ig-link:hover {
+            color: #e0ac4c;
+        }
+
+        /* --- CONTENUTO DOMANDA --- */
+        .content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 36px 20px;
+        }
+        .quiz-card {
+            width: 100%;
+            max-width: 780px;
+            background: rgba(15, 15, 15, 0.86);
+            border: 1px solid rgba(224, 172, 76, 0.45);
+            border-radius: 18px;
+            padding: 28px 24px;
+            box-sizing: border-box;
+            text-align: center;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+        }
+        .top-bar-q {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+        .topic-label {
+            font-size: 0.9em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #e0ac4c;
+        }
+        .audio-btn {
+            background: #e0ac4c;
+            color: #111;
+            border: none;
+            border-radius: 999px;
+            padding: 9px 16px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.92em;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.15s ease, background-color 0.2s ease;
+        }
+        .audio-btn:hover {
+            background: #f0be5e;
+            transform: translateY(-1px);
+        }
+        .question-image-box {
+            margin: 0 auto 22px;
+            max-width: 520px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(0, 0, 0, 0.4);
+        }
+        .question-image-box img {
+            width: 100%;
+            max-height: 340px;
+            object-fit: cover;
+            display: block;
+        }
+        .question-text {
+            margin: 0 auto 24px;
+            max-width: 660px;
+            font-size: 1.25em;
+            line-height: 1.5;
+            font-weight: 700;
+            color: #fff;
+        }
+        .vf-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            max-width: 460px;
+            margin: 0 auto;
+        }
+        .vf-btn {
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 2px solid rgba(224, 172, 76, 0.6);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.05em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .vf-btn:hover,
+        .vf-btn.selected {
+            background: #e0ac4c;
+            color: #111;
+            border-color: #e0ac4c;
+        }
+
+        /* --- MODALE CONFERMA USCITA LOGO --- */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.78);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 2000;
+        }
+        .modal-backdrop.active {
+            display: flex;
+        }
+        .modal-card {
+            background: #181818;
+            border: 1px solid rgba(224, 172, 76, 0.5);
+            border-radius: 14px;
+            padding: 24px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+        }
+        .modal-card p {
+            margin: 0 0 20px;
+            font-size: 1.1em;
+            line-height: 1.45;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .btn-confirm {
+            background: #e0ac4c;
+            color: #111;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-cancel {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 8px;
+            padding: 10px 18px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.85);
+            text-align: center;
+            padding: 25px;
+            font-size: 0.9em;
+            margin-top: auto;
+        }
+
+        /* --- COOKIE BANNER --- */
+        #cookieBanner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            color: #fff;
+            padding: 15px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        #cookieBanner button {
+            background: #e0ac4c;
+            color: #111;
+            border: none;
+            padding: 8px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        @media screen and (max-width: 800px) {
+            .logo-container img {
+                height: 65px;
+            }
+            .quiz-card {
+                padding: 22px 16px;
+            }
+            .question-text {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <header>
+            <div class="header-spacer" aria-hidden="true"></div>
+            <div class="logo-container">
+                <a href="https://italianbeerschool.it" id="logo-leave-link" data-url="https://italianbeerschool.it" title="Torna a Italian Beer School">
+                    <img src="Logo-IBS-italian-beer-school-firenze.png" alt="Logo IBS" />
+                </a>
+            </div>
+            <div class="nav-right">
+                <a href="https://www.instagram.com/italianbeerschool/?hl=en" target="_blank" rel="noopener" class="ig-link" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </header>
+
+        <main class="content">
+            <section class="quiz-card">
+                <div class="top-bar-q">
+                    <span class="topic-label">Curiosità • Domanda 1 di 12</span>
+                    <button type="button" id="btnAudio" class="audio-btn" data-audio-src="curiosita-01.mp3">
+                        <i class="fas fa-volume-up"></i>
+                        <span id="audioLabel">Ascolta domanda</span>
+                    </button>
+                </div>
+
+                <div class="question-image-box">
+                    <img src="curiosita-01.webp" alt="Birra calda e speziata sul fuoco" />
+                </div>
+
+                <p id="questionText" class="question-text">
+                    Si può bere la birra calda? Viene scaldata con l'aggiunta di spezie e consumata un po' come fosse un vin brulé: vero o falso?
+                </p>
+
+                <div class="vf-buttons">
+                    <button type="button" class="vf-btn" data-answer="true">VERO</button>
+                    <button type="button" class="vf-btn" data-answer="false">FALSO</button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            2026 IBS ITALIAN BEER SCHOOL – P.IVA: IT07436420488 | <a href="privacy.html" style="color:#e0ac4c">Privacy</a>
+        </footer>
+    </div>
+
+    <!-- MODALE CONFERMA USCITA LOGO -->
+    <div id="leaveModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="leaveModalText">
+        <div class="modal-card">
+            <p id="leaveModalText">Vuoi davvero abbandonare il gioco?</p>
+            <div class="modal-actions">
+                <button type="button" id="btnCancelLeave" class="btn-cancel">Resta nel gioco</button>
+                <button type="button" id="btnConfirmLeave" class="btn-confirm">Esci al sito</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cookieBanner">
+        <p>Utilizziamo i cookie per migliorare la tua esperienza. <a href="privacy.html" style="color:#e0ac4c">Privacy Policy</a></p>
+        <button id="acceptBtn">Accetta</button>
+    </div>
+
+    <audio id="questionAudio"></audio>
+
+    <script>
+        // Conferma uscita cliccando sul logo centrale
+        const logoLink = document.getElementById('logo-leave-link');
+        const leaveModal = document.getElementById('leaveModal');
+        const btnCancelLeave = document.getElementById('btnCancelLeave');
+        const btnConfirmLeave = document.getElementById('btnConfirmLeave');
+        let targetSiteUrl = logoLink ? (logoLink.dataset.url || logoLink.href) : 'https://italianbeerschool.it';
+
+        if (logoLink && leaveModal) {
+            logoLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                targetSiteUrl = logoLink.dataset.url || logoLink.href;
+                leaveModal.classList.add('active');
+            });
+            btnCancelLeave.addEventListener('click', () => leaveModal.classList.remove('active'));
+            btnConfirmLeave.addEventListener('click', () => { window.location.href = targetSiteUrl; });
+            leaveModal.addEventListener('click', (e) => {
+                if (e.target === leaveModal) leaveModal.classList.remove('active');
+            });
+        }
+
+        // Riproduzione audio (file audio se presente, altrimenti sintesi vocale del browser)
+        const btnAudio = document.getElementById('btnAudio');
+        const audioLabel = document.getElementById('audioLabel');
+        const audioPlayer = document.getElementById('questionAudio');
+        const questionText = document.getElementById('questionText').textContent.trim();
+
+        function stopCurrentAudio() {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            audioLabel.textContent = 'Ascolta domanda';
+        }
+
+        btnAudio.addEventListener('click', () => {
+            const src = btnAudio.dataset.audioSrc;
+            if (src) {
+                stopCurrentAudio();
+                audioPlayer.src = src;
+                audioLabel.textContent = 'In riproduzione...';
+                audioPlayer.play().catch(() => {
+                    if ('speechSynthesis' in window) {
+                        const utter = new SpeechSynthesisUtterance(questionText);
+                        utter.lang = 'it-IT';
+                        utter.onend = () => { audioLabel.textContent = 'Ascolta domanda'; };
+                        window.speechSynthesis.speak(utter);
+                    } else {
+                        audioLabel.textContent = 'Ascolta domanda';
+                    }
+                });
+                audioPlayer.onended = () => { audioLabel.textContent = 'Ascolta domanda'; };
+            } else if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(questionText);
+                utter.lang = 'it-IT';
+                audioLabel.textContent = 'In ascolto...';
+                utter.onend = () => { audioLabel.textContent = 'Ascolta domanda'; };
+                window.speechSynthesis.speak(utter);
+            }
+        });
+
+        // Selezione Vero / Falso
+        document.querySelectorAll('.vf-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.vf-btn').forEach((b) => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                sessionStorage.setItem('clsb_curiosita_q1', btn.dataset.answer);
+            });
+        });
+
+        // Cookie banner
+        const banner = document.getElementById('cookieBanner');
+        const btn = document.getElementById('acceptBtn');
+        if (!localStorage.getItem('cookiesAccepted')) {
+            banner.style.display = 'flex';
+        }
+        btn.onclick = () => {
+            localStorage.setItem('cookiesAccepted', 'true');
+            banner.style.display = 'none';
+        };
+    </script>
+</body>
+</html>
