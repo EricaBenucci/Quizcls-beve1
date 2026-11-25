@@ -116,7 +116,7 @@
             color: #f3f3f3;
         }
 
-        /* --- 5 PULSANTI ARGOMENTO --- */
+        /* --- 5 PULSANTI ARGOMENTO (3 SOPRA + 2 SOTTO SU DESKTOP) --- */
         .topics-title {
             margin: 0 0 14px;
             font-size: 1.05em;
@@ -126,11 +126,12 @@
         }
         .topics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            grid-template-columns: repeat(6, 1fr);
             gap: 14px;
             margin-bottom: 30px;
         }
         .topic-btn {
+            grid-column: span 2;
             background: #e0ac4c;
             color: #111;
             border: none;
@@ -140,17 +141,16 @@
             font-size: 1em;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.15s ease, background-color 0.2s ease;
+            transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .topic-btn:nth-child(4),
+        .topic-btn:nth-child(5) {
+            grid-column: span 3;
         }
         .topic-btn:hover {
             background: #f0be5e;
             transform: translateY(-2px);
-        }
-        .topic-btn:last-child:nth-child(odd) {
-            grid-column: 1 / -1;
-            max-width: 360px;
-            justify-self: center;
-            width: 100%;
+            box-shadow: 0 6px 18px rgba(224, 172, 76, 0.35);
         }
 
         /* --- REGOLE DEL GIOCO --- */
@@ -158,13 +158,13 @@
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 12px;
-            padding: 20px 22px;
+            padding: 24px 26px;
             text-align: left;
             max-width: 680px;
             margin: 0 auto;
         }
         .rules-box h2 {
-            margin: 0 0 12px;
+            margin: 0 0 14px;
             font-size: 1.2em;
             color: #e0ac4c;
             text-align: center;
@@ -176,10 +176,10 @@
             font-size: 0.98em;
         }
         .rules-list li {
-            margin-bottom: 6px;
+            margin-bottom: 9px;
         }
         .rules-outro {
-            margin: 14px 0 0;
+            margin: 16px 0 0;
             text-align: center;
             font-weight: 700;
             color: #e0ac4c;
@@ -284,6 +284,17 @@
             }
             .welcome-box h1 {
                 font-size: 1.75em;
+            }
+        }
+
+        @media screen and (max-width: 640px) {
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+            .topic-btn,
+            .topic-btn:nth-child(4),
+            .topic-btn:nth-child(5) {
+                grid-column: span 1;
             }
         }
     </style>
@@ -392,8 +403,6 @@
             btn.addEventListener('click', () => {
                 const topic = btn.dataset.topic;
                 sessionStorage.setItem('clsb_selected_topic', topic);
-                // Quando avremo la pagina o la sezione del quiz, reindirizzeremo qui:
-                // window.location.href = 'quiz.html?topic=' + encodeURIComponent(topic);
                 alert('Argomento selezionato: ' + btn.textContent.trim() + '. Ora prepariamo la pagina di gioco!');
             });
         });
